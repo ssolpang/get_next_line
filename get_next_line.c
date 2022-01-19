@@ -6,8 +6,13 @@
 /*   By: jkwak <jkwak@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/16 22:52:07 by jkwak             #+#    #+#             */
-/*   Updated: 2022/01/16 22:52:09 by jkwak            ###   ########.fr       */
+/*   Updated: 2022/01/19 17:54:32 by jkwak            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+char	*get_next_line(int fd)
+{
+	char	buf[BUFFER_SIZE + 1];
 
+	read(fd, buf, BUFFER_SIZE);
+}
