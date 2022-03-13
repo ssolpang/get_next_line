@@ -6,11 +6,28 @@
 /*   By: jkwak <jkwak@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/16 22:52:07 by jkwak             #+#    #+#             */
-/*   Updated: 2022/03/10 23:57:52 by jkwak            ###   ########.fr       */
+/*   Updated: 2022/03/13 20:54:31 by jkwak            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-char	*read_line(int fd)
+#include "get_next_line.h"
+
+int	check_newline(char *line)
+{
+	int	i;
+
+	i = 0;
+	while (line[i])
+	{
+		if (line[i] == '\n')
+			return (1);
+		else
+			i++;
+	}
+	return (0);
+}
+
+char	*read_line(int fd, char *temp)
 {
 	char	*buf;
 	int		i;
@@ -18,73 +35,62 @@ char	*read_line(int fd)
 	buf = (char *)malloc(sizeof(char) * (BUFFER_SIZE + 1));
 	if (!buf)
 		return (NULL);
-	i = read(fd, buf, BUFFER_SIZE);
-	if (i == 0)
-		return (NULL);
-	buf[BUFFER_SIZE] = 0;
-	return (buf);
-}
-
-char	*edit_line(char *line, int i)
-{
-	int		j;
-	char	*buf;
-
-	buf = (char *)malloc(sizeof(char) * (i + 2));
-	if (!buf)
-		return (NULL);
-	j = 0;
-	while (j < i + 1)
+	i = 1;
+	while (i && !check_newline(buf))
 	{
-		buf[j] = line[j];
-		j++;
+		i = read(fd, buf, BUFFER_SIZE);
+		if (i == -1)
+		{
+			free(buf);
+			return (NULL);
+		}
+		buf[BUFFER_SIZE] = 0;
+		temp = ft_strjoin(temp, buf);
 	}
-	buf[j] = 0;
-	return (buf);
+	free(buf);
+	return (temp);
 }
 
-char	*cut_line(char *line, char *remain)
+char	*the_rest(char *temp, int i)
 {
+	char	*str;
+	int		temp_len;
+
+	temp_len = ft_strlen(temp);
+	str = (char *)malloc(sizeof(char) * (temp_len - i));
+	if (!str)
+		return (NULL);
+	ft_strlcpy(str, temp[i + 1], temp_len - i);
+	free(temp);
+	return (str);
+}
+
+char	*cut_line(char *temp)
+{
+	char	*str;
 	int		i;
-	int		line_len;
 
-	line = ft_strjoin(remain, line);
 	i = 0;
-	line_len = ft_strlen(line);
-	while ((line[i] != '\n') && line[i])
+	while (temp[i] != '\n' && temp[i])
 		i++;
-	if (i + 1 >= line_len)
-		return (line);
-	remain = (line + i + 1);
-	line = edit_line(line, i);
-	return (line);
-}
-
-int	check_newline(char *line, char *remain)
-{
-	int	line_len;
-
-	line_len = ft_strlen(line);
-	if (line[lin_len - 1] == '\n')
-		return (1);
-	else
-	{
-		remain = line;
-		return (0);
-	}
+	str = (char *)malloc(sizeof(char) * (i + 2));
+	if (!str)
+		return (NULL);
+	ft_strlcpy(str, temp, i + 2);
+	temp = the_rest(temp, i);
+	return (str);
 }
 
 char	*get_next_line(int fd)
 {
-	static char	*remain;
+	static char	*temp;
 	char		*line;
 
-	if (BUFFER_SIZE <= 0)
+	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
-	line = read_line(fd);
+	temp = read_line(fd, temp);
 	if (!line)
 		return (NULL);
-	line = cut_line(line, remain);
-	if (check_newline(line, remain))
-		return (line);
+	line = cut_line(temp);
+	return (line);
 }
