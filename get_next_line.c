@@ -60,7 +60,7 @@ char	*the_rest(char *temp, int i)
 	str = (char *)malloc(sizeof(char) * (temp_len - i));
 	if (!str)
 		return (NULL);
-	ft_strlcpy(str, temp[i + 1], temp_len - i);
+	ft_strlcpy(str, &temp[i + 1], temp_len - i);
 	free(temp);
 	return (str);
 }
@@ -89,7 +89,7 @@ char	*get_next_line(int fd)
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
 	temp = read_line(fd, temp);
-	if (!line)
+	if (!temp)
 		return (NULL);
 	line = cut_line(temp);
 	return (line);
