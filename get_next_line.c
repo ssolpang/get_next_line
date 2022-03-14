@@ -6,7 +6,7 @@
 /*   By: jkwak <jkwak@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/16 22:52:07 by jkwak             #+#    #+#             */
-/*   Updated: 2022/03/13 20:54:31 by jkwak            ###   ########.fr       */
+/*   Updated: 2022/03/14 19:23:53 by jkwak            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ char	*read_line(int fd, char *temp)
 			free(buf);
 			return (NULL);
 		}
-		buf[BUFFER_SIZE] = 0;
+		buf[i] = 0;
 		temp = ft_strjoin(temp, buf);
 	}
 	free(buf);
@@ -73,6 +73,8 @@ char	*cut_line(char *temp)
 	i = 0;
 	while (temp[i] != '\n' && temp[i])
 		i++;
+	if (!temp[i])
+		i -= 1;
 	str = (char *)malloc(sizeof(char) * (i + 2));
 	if (!str)
 		return (NULL);
