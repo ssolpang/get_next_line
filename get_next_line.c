@@ -6,7 +6,7 @@
 /*   By: jkwak <jkwak@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/16 22:52:07 by jkwak             #+#    #+#             */
-/*   Updated: 2022/03/14 20:58:57 by jkwak            ###   ########.fr       */
+/*   Updated: 2022/03/14 21:37:38 by jkwak            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ int	check_newline(char *line)
 {
 	int	i;
 
+	if (!line)
+		return (0);
 	i = 0;
 	while (line[i])
 	{
@@ -36,7 +38,7 @@ char	*read_line(int fd, char *temp)
 	if (!buf)
 		return (NULL);
 	i = 1;
-	while (i && !check_newline(buf))
+	while (i && !check_newline(temp))
 	{
 		i = read(fd, buf, BUFFER_SIZE);
 		if (i == -1)
@@ -61,8 +63,11 @@ char	*the_rest(char *temp)
 	i = 0;
 	while (temp[i] != '\n' && temp[i])
 		i++;
-	if (!temp[i])
-		i -= 1;
+	if (!temp[i] || (temp_len - i) == 1)
+	{
+		free(temp);
+		return (NULL);
+	}
 	str = (char *)malloc(sizeof(char) * (temp_len - i));
 	if (!str)
 		return (NULL);
@@ -76,6 +81,8 @@ char	*cut_line(char *temp)
 	char	*str;
 	int		i;
 
+	if (!temp[0])
+		return (NULL);
 	i = 0;
 	while (temp[i] != '\n' && temp[i])
 		i++;
