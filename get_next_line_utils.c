@@ -6,7 +6,7 @@
 /*   By: jkwak <jkwak@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/16 22:52:27 by jkwak             #+#    #+#             */
-/*   Updated: 2022/03/13 20:57:44 by jkwak            ###   ########.fr       */
+/*   Updated: 2022/03/14 20:59:41 by jkwak            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,18 +22,31 @@ size_t	ft_strlen(char *s)
 	return (i);
 }
 
+char	*ft_strdup(char *s1)
+{
+	char	*result;
+	int		i;
+
+	result = (char *)malloc(sizeof(char) * (ft_strlen(s1) + 1));
+	if (!result)
+		return (NULL);
+	i = 0;
+	while (*(s1 + i))
+	{
+		*(result + i) = *(s1 + i);
+		i++;
+	}
+	*(result + i) = 0;
+	return (result);
+}
+
 char	*ft_strjoin(char *s1, char *s2)
 {
 	int		full_len;
 	char	*new_str;
 
 	if (!s1)
-	{
-		s1 = (char *)malloc(sizeof(char));
-		if (!s1)
-			return (NULL);
-		s1 = "";
-	}
+		s1 = ft_strdup("");
 	if (!s1 || !s2)
 		return (NULL);
 	full_len = ft_strlen(s1) + ft_strlen(s2);

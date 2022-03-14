@@ -6,7 +6,7 @@
 /*   By: jkwak <jkwak@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/16 22:52:07 by jkwak             #+#    #+#             */
-/*   Updated: 2022/03/14 19:23:53 by jkwak            ###   ########.fr       */
+/*   Updated: 2022/03/14 20:58:57 by jkwak            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,12 +51,18 @@ char	*read_line(int fd, char *temp)
 	return (temp);
 }
 
-char	*the_rest(char *temp, int i)
+char	*the_rest(char *temp)
 {
 	char	*str;
 	int		temp_len;
+	int		i;
 
 	temp_len = ft_strlen(temp);
+	i = 0;
+	while (temp[i] != '\n' && temp[i])
+		i++;
+	if (!temp[i])
+		i -= 1;
 	str = (char *)malloc(sizeof(char) * (temp_len - i));
 	if (!str)
 		return (NULL);
@@ -79,7 +85,6 @@ char	*cut_line(char *temp)
 	if (!str)
 		return (NULL);
 	ft_strlcpy(str, temp, i + 2);
-	temp = the_rest(temp, i);
 	return (str);
 }
 
@@ -94,5 +99,6 @@ char	*get_next_line(int fd)
 	if (!temp)
 		return (NULL);
 	line = cut_line(temp);
+	temp = the_rest(temp);
 	return (line);
 }
