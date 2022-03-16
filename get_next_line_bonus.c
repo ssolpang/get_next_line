@@ -6,7 +6,7 @@
 /*   By: jkwak <jkwak@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/15 15:48:03 by jkwak             #+#    #+#             */
-/*   Updated: 2022/03/15 17:07:39 by jkwak            ###   ########.fr       */
+/*   Updated: 2022/03/16 16:20:05 by jkwak            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,10 +97,10 @@ char	*cut_line(char *temp)
 
 char	*get_next_line(int fd)
 {
-	static char	*temp[OPEN_MAX];
+	static char	*temp[255];
 	char		*line;
 
-	if (fd < 0 || BUFFER_SIZE <= 0 || fd > OPEN_MAX)
+	if (fd < 0 || BUFFER_SIZE <= 0 || fd > 255)
 		return (NULL);
 	temp[fd] = read_line(fd, temp[fd]);
 	if (!temp[fd])

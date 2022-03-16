@@ -6,7 +6,7 @@
 /*   By: jkwak <jkwak@student.42seoul.kr>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/15 16:05:40 by jkwak             #+#    #+#             */
-/*   Updated: 2022/03/15 16:53:33 by jkwak            ###   ########.fr       */
+/*   Updated: 2022/03/16 16:20:45 by jkwak            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 
 # include <unistd.h>
 # include <stdlib.h>
-# include <limits.h>
 
 size_t	ft_strlen(char *s);
 char	*ft_strdup(char *s1);
